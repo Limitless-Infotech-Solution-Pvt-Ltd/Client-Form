@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Questionnaire - Limitless Infotech Solution's PVT LTD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .form-step, #admin-dashboard {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .form-step.active, #admin-dashboard.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .progress-bar-fill {
+            transition: width 0.4s ease-in-out;
+        }
+        .form-container {
+            max-width: 800px;
+            margin: auto;
+        }
+        #successMessage, #submissionError {
+            display: none;
+        }
+        .invalid-field {
+            border-color: #ef4444; /* red-500 */
+        }
+        .error-message {
+            color: #dc2626; /* red-600 */
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        .char-counter {
+            font-size: 0.75rem;
+            color: #6b7280;
+            text-align: right;
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Print styles */
+        @media print {
+            body * { visibility: hidden; }
+            #review-content-print, #review-content-print * { visibility: visible; }
+            #review-content-print { position: absolute; left: 0; top: 0; width: 100%; padding: 2rem; }
+            #review-content-print .edit-btn { display: none; }
+        }
+        /* Custom Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+        .modal-overlay.visible { opacity: 1; visibility: visible; }
+        .modal-content { background: white; padding: 2rem; border-radius: 0.5rem; width: 90%; max-width: 500px; transform: scale(0.95); transition: transform 0.3s; }
+        .modal-overlay.visible .modal-content { transform: scale(1); }
+        /* Radio button styling */
+        .radio-label { display: inline-flex; align-items: center; cursor: pointer; }
+        .radio-input { display: none; }
+        .radio-custom { width: 1.25rem; height: 1.25rem; border: 2px solid #d1d5db; border-radius: 50%; display: inline-grid; place-items: center; transition: all 0.2s; }
+        .radio-custom::before { content: ""; width: 0.75rem; height: 0.75rem; border-radius: 50%; background-color: #3b82f6; transform: scale(0); transition: transform 0.2s; }
+        .radio-input:checked + .radio-custom { border-color: #3b82f6; }
+        .radio-input:checked + .radio-custom::before { transform: scale(1); }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="form-container bg-white shadow-lg rounded-lg my-10 p-8">
+        <!-- Main Form View -->
+        <div id="main-view">
+            <div id="successMessage" class="text-center">
+                <svg class="mx-auto h-12 w-12 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <h3 class="mt-4 text-2xl font-bold text-gray-900">Submission Successful!</h3>
+                <p class="mt-2 text-gray-600">Thank you for providing your project requirements. We will get back to you shortly.</p>
+                <div class="mt-6">
+                    <button id="startOverBtn" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-md hover:bg-blue-700 transition duration-300">Submit Another Request</button>
+                </div>
+            </div>
+            <div id="submissionError" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md"><p class="font-bold">Submission Failed</p><p>An unexpected error occurred. Please try submitting the form again.</p></div>
+
+            <div id="brandingHeader" class="text-center mb-8">
+                <img src="https://i.imgur.com/OD432yM.png" alt="Limitless Infotech Solution's PVT LTD Logo" class="mx-auto h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/200x80/000000/FFFFFF?text=Logo';">
+                <h1 class="text-3xl font-bold text-gray-900 mt-4">Limitless Infotech Solution's PVT LTD</h1>
+                <p class="text-gray-600 mt-2 italic">Client Questionnaire – Website, Branding & Digital Services</p>
+            </div>
+
+            <div id="form-content">
+                <div class="mb-8"><div class="w-full bg-gray-200 rounded-full h-2.5"><div id="progressBar" class="bg-blue-600 h-2.5 rounded-full progress-bar-fill" style="width: 16.66%"></div></div><div id="stepIndicator" class="text-center text-sm text-gray-600 mt-2">Step 1 of 6</div></div>
+                <form id="requirementsForm" action="#" method="POST" novalidate>
+                    <!-- Step 1: Contact Information -->
+                    <div id="step-1" class="form-step active"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 border-blue-500 pl-4 mb-6">Contact Information</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label><input type="text" id="fullName" name="fullName" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"><p class="error-message" aria-live="polite"></p></div><div><label for="companyName" class="block text-sm font-medium text-gray-700 mb-1">Company Name</label><input type="text" id="companyName" name="companyName" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"></div><div><label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label><input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"><p class="error-message" aria-live="polite"></p></div><div><label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label><input type="tel" id="phone" name="phone" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"></div></div></div>
+                    
+                    <!-- Step 2: The Big Picture -->
+                    <div id="step-2" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 border-blue-500 pl-4 mb-6">The Big Picture</h2><div class="space-y-6"><div><label for="q_business_overview" class="block text-sm font-medium text-gray-700">1. Business Overview & Goals</label><p class="text-sm text-gray-500 mt-1">Briefly describe your business, its vision, and the launch goals. This helps us align the website and branding with your core identity. 👉 Include your business segments, mission, and your target launch date.</p><textarea id="q_business_overview" name="q_business_overview" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div><div><label for="q_audience" class="block text-sm font-medium text-gray-700">2. Audience & Market Understanding</label><p class="text-sm text-gray-500 mt-1">Who is your ideal customer and what would influence their buying decision? This allows us to design with your target audience in mind. 👉 Also let us know what you like/dislike about competitor websites and messaging.</p><textarea id="q_audience" name="q_audience" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div><div><label for="q_branding_style" class="block text-sm font-medium text-gray-700">3. Branding & Style Preferences</label><p class="text-sm text-gray-500 mt-1">What kind of style or feel would you like for your logo and brand colours? 👉 For example: bold, elegant, earthy, premium, youthful, minimal, traditional, etc. You can also share inspirations or reference brands.</p><textarea id="q_branding_style" name="q_branding_style" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div></div></div>
+
+                    <!-- Step 3: Website Functionality -->
+                    <div id="step-3" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 border-blue-500 pl-4 mb-6">Website Functionality</h2><div class="space-y-6"><div><label for="q_website_objectives" class="block text-sm font-medium text-gray-700">4. Website Objectives & Features</label><p class="text-sm text-gray-500 mt-1">What is the main purpose of your website and what features should it have? How will you measure success? 👉 Mention if products are fixed or customizable, and how you'd prefer custom orders to be handled.</p><textarea id="q_website_objectives" name="q_website_objectives" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div><div><label for="q_product_categories" class="block text-sm font-medium text-gray-700">5. Product Categories & Content</label><p class="text-sm text-gray-500 mt-1">How many product categories and subcategories will you start with? 👉 Include any special sections like blogs, reviews, or project galleries you’d like.</p><textarea id="q_product_categories" name="q_product_categories" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div><div><label for="q_design_ux" class="block text-sm font-medium text-gray-700">6. Design & User Experience</label><p class="text-sm text-gray-500 mt-1">What kind of look and feel should the website have? 👉 Clean or interactive layout? Preferred colours/fonts? Do you need the site in multiple languages?</p><textarea id="q_design_ux" name="q_design_ux" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div></div></div>
+
+                    <!-- Step 4: Advanced & Technical Features -->
+                    <div id="step-4" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 border-blue-500 pl-4 mb-6">Advanced & Technical Features</h2><div class="space-y-8"><div><label class="block text-sm font-medium text-gray-700">1. How will the product designs be created and by whom?</label><p class="text-sm text-gray-500 mt-1">Will your team handle product designing? Also, will the designs be made online or offline?</p><textarea id="q_design_creation" name="q_design_creation" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1000"></textarea><div class="char-counter">0 / 1000</div></div><div><label class="block text-sm font-medium text-gray-700">📐 2. Will designs be provided in SVG format (e.g., from CAD)?</label><p class="text-sm text-gray-500 mt-1">If yes, how many angles should be included (e.g., front, top, side)?</p><textarea id="q_svg_format" name="q_svg_format" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1000"></textarea><div class="char-counter">0 / 1000</div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">📊 3. Do you need advanced data insights like Pivot Charts?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="q_pivot_charts" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="q_pivot_charts" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">🔒 4. Should there be an option to assign admin rights to your team members?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="q_admin_rights" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="q_admin_rights" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">🧩 5. If new products are added in SVG/CAD, should they support direct 3D previews?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="q_3d_previews" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="q_3d_previews" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">🛍️ 6. Would you like to enable product promotions and a 'Trending' page?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="q_promotions" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="q_promotions" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">💵 7. Will you offer Cash on Delivery (COD) as a payment option?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="q_cod" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="q_cod" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div></div></div>
+
+                    <!-- Step 5: Project Logistics -->
+                    <div id="step-5" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 border-blue-500 pl-4 mb-6">Project Logistics</h2><div class="space-y-6"><div><label for="q_social_media" class="block text-sm font-medium text-gray-700">9. Social Media Management</label><p class="text-sm text-gray-500 mt-1">Would you like us to set up and manage your social media accounts? 👉 Tell us your expectations – branding, leads, content ideas (photos, reels, BTS, etc.).</p><textarea id="q_social_media" name="q_social_media" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div><div><label for="q_budget_timeline" class="block text-sm font-medium text-gray-700">10. Budget & Project Timeline</label><p class="text-sm text-gray-500 mt-1">What is your expected budget and any key deadlines? 👉 Also let us know how often you’d prefer updates and who will be your main point of contact.</p><div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2"><div><label for="budget" class="block text-xs font-medium text-gray-600">Budget</label><div class="flex"><select id="currency" name="currency" class="px-4 py-2 border border-r-0 border-gray-300 rounded-l-md bg-gray-50"></select><select id="budget" name="budget" class="w-full px-4 py-2 border border-gray-300 rounded-r-md"><option value="">Select a range</option><option value="<5000">&lt; 5,000</option><option value="5000-10000">5,000 - 10,000</option><option value="10000-25000">10,000 - 25,000</option><option value="25000-50000">25,000 - 50,000</option><option value=">50000">&gt; 50,000</option></select></div></div><div><label for="timeline" class="block text-xs font-medium text-gray-600">Timeline / Deadline</label><input type="text" id="timeline" name="timeline" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g., 3 months, specific date..."></div></div><textarea id="q_budget_timeline_details" name="q_budget_timeline_details" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Add details about updates and point of contact here..."></textarea></div><div><label for="q_final_notes" class="block text-sm font-medium text-gray-700">11. Final Notes & Expectations</label><p class="text-sm text-gray-500 mt-1">Do you have any fixed requirements or additional services you expect from us? 👉 Add anything else you feel is important or non-negotiable.</p><textarea id="q_final_notes" name="q_final_notes" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div></div></div>
+                    
+                    <!-- Step 6: Review & Submit -->
+                    <div id="step-6" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 border-blue-500 pl-4 mb-6">Review & Submit</h2><p class="text-gray-600 mb-6">Please review the information below before submitting. Click "Edit" to jump back to a section.</p><div id="review-content" class="space-y-4 bg-gray-50 p-6 rounded-lg"></div><div class="text-center mt-6"><button type="button" id="printBtn" class="bg-gray-600 text-white font-bold py-2 px-6 rounded-md hover:bg-gray-700 transition duration-300">Print / Save as PDF</button></div></div>
+                    
+                    <!-- Navigation Buttons -->
+                    <div class="mt-8 pt-5 border-t border-gray-200"><div class="flex justify-between"><button type="button" id="prevBtn" class="bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-md hover:bg-gray-300 transition duration-300">Previous</button><button type="button" id="nextBtn" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-md hover:bg-blue-700 transition duration-300">Next</button><button type="submit" id="submitBtn" class="bg-green-600 text-white font-bold py-2 px-6 rounded-md hover:bg-green-700 transition duration-300 hidden items-center justify-center">Submit Request</button></div></div>
+                </form>
+            </div>
+            <p class="text-center text-xs text-gray-400 mt-8">To view submissions, add #admin to the end of the URL in the address bar.</p>
+        </div>
+
+        <!-- Admin Dashboard View -->
+        <div id="admin-dashboard">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Submissions Dashboard</h2>
+            <div class="flex justify-between items-center mb-4"><button id="downloadAllCsvBtn" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-md hover:bg-blue-700 transition duration-300">Download All as CSV</button><button id="clearAllBtn" class="bg-red-600 text-white font-bold py-2 px-6 rounded-md hover:bg-red-700 transition duration-300">Clear All Submissions</button></div>
+            <div class="overflow-x-auto bg-white rounded-lg shadow"><table class="min-w-full divide-y divide-gray-200"><thead class="bg-gray-50"><tr><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th></tr></thead><tbody id="submissions-table-body" class="bg-white divide-y divide-gray-200"></tbody></table></div>
+            <p id="no-submissions" class="text-center text-gray-500 py-8 hidden">No submissions yet.</p>
+        </div>
+
+        <!-- Print container -->
+        <div id="review-content-print" class="hidden"></div>
+
+        <!-- Confirmation Modal -->
+        <div id="confirmation-modal" class="modal-overlay"><div class="modal-content"><h3 class="text-lg font-bold mb-4">Are you sure?</h3><p class="text-gray-600 mb-6">This action cannot be undone. All submission data stored in this browser will be permanently deleted.</p><div class="flex justify-end space-x-4"><button id="cancel-clear" class="bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-md hover:bg-gray-300">Cancel</button><button id="confirm-clear" class="bg-red-600 text-white font-bold py-2 px-6 rounded-md hover:bg-red-700">Yes, Clear All</button></div></div></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let currentStep = 1;
+            const totalSteps = 6;
+            const form = document.getElementById('requirementsForm');
+            const mainView = document.getElementById('main-view');
+            const adminView = document.getElementById('admin-dashboard');
+
+            const fieldLabels = {
+                fullName: { l: "Full Name", s: 1 }, companyName: { l: "Company Name", s: 1 }, email: { l: "Email", s: 1 }, phone: { l: "Phone", s: 1 },
+                q_business_overview: { l: "1. Business Overview & Goals", s: 2 }, q_audience: { l: "2. Audience & Market", s: 2 }, q_branding_style: { l: "3. Branding & Style", s: 2 },
+                q_website_objectives: { l: "4. Website Objectives & Features", s: 3 }, q_product_categories: { l: "5. Product Categories & Content", s: 3 }, q_design_ux: { l: "6. Design & UX", s: 3 },
+                q_design_creation: { l: "1. Design Creation Process", s: 4 }, q_svg_format: { l: "2. SVG/CAD Format Details", s: 4 }, q_pivot_charts: { l: "3. Need Pivot Charts?", s: 4 }, q_admin_rights: { l: "4. Need Admin Rights?", s: 4 }, q_3d_previews: { l: "5. Need 3D Previews?", s: 4 }, q_promotions: { l: "6. Enable Promotions?", s: 4 }, q_cod: { l: "7. Offer COD?", s: 4 },
+                q_social_media: { l: "9. Social Media Management", s: 5 }, budget: { l: "Budget", s: 5 }, currency: { l: "Currency", s: 5 }, timeline: { l: "Timeline", s: 5 }, q_budget_timeline_details: { l: "Update/Contact Details", s: 5 }, q_final_notes: { l: "11. Final Notes", s: 5 }
+            };
+
+            const showStep = (step) => {
+                document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+                document.getElementById(`step-${step}`).classList.add('active');
+                document.getElementById('progressBar').style.width = `${(step / totalSteps) * 100}%`;
+                document.getElementById('stepIndicator').textContent = `Step ${step} of ${totalSteps}`;
+                document.getElementById('prevBtn').style.display = step === 1 ? 'none' : 'inline-block';
+                document.getElementById('nextBtn').style.display = step === totalSteps ? 'none' : 'inline-block';
+                document.getElementById('submitBtn').style.display = step === totalSteps ? 'inline-block' : 'none';
+                if (step === totalSteps) generateReview();
+            };
+
+            const validateStep = (step) => {
+                let isValid = true;
+                const currentStepEl = document.getElementById(`step-${step}`);
+                currentStepEl.querySelectorAll('.invalid-field').forEach(el => el.classList.remove('invalid-field'));
+                currentStepEl.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+                const inputs = currentStepEl.querySelectorAll('input[required]');
+                inputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        input.classList.add('invalid-field');
+                        const errorEl = input.closest('div').querySelector('.error-message');
+                        if (errorEl) errorEl.textContent = 'This field is required.';
+                    }
+                });
+                return isValid;
+            };
+
+            document.getElementById('nextBtn').addEventListener('click', () => { if (validateStep(currentStep) && currentStep < totalSteps) { currentStep++; showStep(currentStep); } });
+            document.getElementById('prevBtn').addEventListener('click', () => { if (currentStep > 1) { currentStep--; showStep(currentStep); } });
+
+            const setupEventListeners = () => {
+                form.querySelectorAll('textarea[maxlength]').forEach(textarea => {
+                    const counter = textarea.nextElementSibling;
+                    const updateCounter = () => counter.textContent = `${textarea.value.length} / ${textarea.getAttribute('maxlength')}`;
+                    textarea.removeEventListener('input', updateCounter);
+                    textarea.addEventListener('input', updateCounter);
+                    updateCounter();
+                });
+            };
+            
+            const currencySelect = document.getElementById('currency');
+            const currencies = { "USD": "$", "EUR": "€", "JPY": "¥", "GBP": "£", "INR": "₹", "AUD": "$", "CAD": "$", "CHF": "Fr", "CNY": "¥", "SEK": "kr", "NZD": "$" };
+            for (const code in currencies) currencySelect.add(new Option(`${code} (${currencies[code]})`, code));
+            currencySelect.value = 'USD';
+
+            const saveFormData = () => sessionStorage.setItem('clientFormData', JSON.stringify(Object.fromEntries(new FormData(form).entries())));
+            const loadFormData = () => {
+                const data = JSON.parse(sessionStorage.getItem('clientFormData'));
+                if (!data) return;
+                for (const key in data) {
+                    const element = form.elements[key];
+                    if (element) {
+                        if (element.type === 'radio') {
+                            const radioToSelect = document.querySelector(`input[name="${key}"][value="${data[key]}"]`);
+                            if (radioToSelect) radioToSelect.checked = true;
+                        } else {
+                            element.value = data[key];
+                        }
+                    }
+                }
+            };
+            
+            form.addEventListener('input', saveFormData);
+            
+            const generateReview = () => {
+                const reviewContent = document.getElementById('review-content');
+                reviewContent.innerHTML = '';
+                const formData = new FormData(form);
+                const createReviewSection = (title, step) => `<div class="p-4 border rounded-lg bg-white mb-4"><div class="flex justify-between items-center mb-2"><h4 class="font-bold text-lg">${title}</h4><button type="button" class="text-blue-600 hover:underline text-sm edit-btn" data-step="${step}">Edit</button></div><div class="review-section-content space-y-2"></div></div>`;
+                reviewContent.innerHTML = [1, 2, 3, 4, 5].map(i => createReviewSection(document.querySelector(`#step-${i} h2`).textContent, i)).join('');
+                for (let [key, value] of formData.entries()) {
+                    if (fieldLabels[key] && value) {
+                        const container = reviewContent.querySelectorAll('.review-section-content')[fieldLabels[key].s - 1];
+                        let displayValue = value.toString().replace(/\n/g, '<br>');
+                        container.insertAdjacentHTML('beforeend', `<div><strong>${fieldLabels[key].l}:</strong><p class="text-gray-700 pl-2 break-words">${displayValue}</p></div>`);
+                    }
+                }
+                reviewContent.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', () => { currentStep = parseInt(btn.dataset.step); showStep(currentStep); }));
+            };
+
+            document.getElementById('printBtn').addEventListener('click', () => {
+                const printContainer = document.getElementById('review-content-print');
+                printContainer.innerHTML = document.getElementById('review-content').innerHTML;
+                window.print();
+            });
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                document.getElementById('submitBtn').innerHTML = '<span class="spinner border-2 border-white border-t-blue-500 w-4 h-4 mr-2"></span>Submitting...';
+                document.getElementById('submitBtn').disabled = true;
+                setTimeout(() => {
+                    const submissions = JSON.parse(localStorage.getItem('limitlessSubmissions')) || [];
+                    const submissionData = Object.fromEntries(new FormData(form).entries());
+                    submissionData.submissionDate = new Date().toISOString();
+                    submissions.push(submissionData);
+                    localStorage.setItem('limitlessSubmissions', JSON.stringify(submissions));
+                    mainView.innerHTML = document.getElementById('successMessage').innerHTML;
+                    document.getElementById('startOverBtn').addEventListener('click', () => window.location.replace(window.location.pathname));
+                    sessionStorage.removeItem('clientFormData');
+                }, 1500);
+            });
+
+            const showAdminDashboard = () => {
+                mainView.style.display = 'none';
+                adminView.classList.add('active');
+                const submissions = JSON.parse(localStorage.getItem('limitlessSubmissions')) || [];
+                const tableBody = document.getElementById('submissions-table-body');
+                tableBody.innerHTML = '';
+                if (submissions.length === 0) {
+                    document.getElementById('no-submissions').style.display = 'block';
+                    document.getElementById('downloadAllCsvBtn').disabled = true;
+                } else {
+                    document.getElementById('no-submissions').style.display = 'none';
+                    document.getElementById('downloadAllCsvBtn').disabled = false;
+                    submissions.forEach(sub => tableBody.insertAdjacentHTML('beforeend', `<tr><td class="px-6 py-4 whitespace-nowrap text-sm">${new Date(sub.submissionDate).toLocaleDateString()}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${sub.fullName || ''}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${sub.companyName || ''}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${sub.email || ''}</td></tr>`));
+                }
+            };
+
+            document.getElementById('downloadAllCsvBtn').addEventListener('click', () => {
+                const submissions = JSON.parse(localStorage.getItem('limitlessSubmissions')) || [];
+                if (submissions.length === 0) return;
+                const headers = Object.keys(fieldLabels).map(key => fieldLabels[key].l);
+                const keys = Object.keys(fieldLabels);
+                const csvRows = [headers.join(','), ...submissions.map(row => keys.map(key => `"${(row[key] || '').toString().replace(/"/g, '""')}"`).join(','))];
+                const link = document.createElement("a");
+                link.setAttribute("href", URL.createObjectURL(new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' })));
+                link.setAttribute("download", `all_submissions-${new Date().toISOString().split('T')[0]}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+            
+            const modal = document.getElementById('confirmation-modal');
+            document.getElementById('clearAllBtn').addEventListener('click', () => modal.classList.add('visible'));
+            document.getElementById('cancel-clear').addEventListener('click', () => modal.classList.remove('visible'));
+            document.getElementById('confirm-clear').addEventListener('click', () => {
+                localStorage.removeItem('limitlessSubmissions');
+                modal.classList.remove('visible');
+                showAdminDashboard();
+            });
+
+            if (window.location.hash === '#admin') {
+                showAdminDashboard();
+            } else {
+                setupEventListeners();
+                loadFormData();
+                showStep(currentStep);
+            }
+        });
+    </script>
+</body>
+</html>
