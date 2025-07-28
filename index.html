@@ -38,6 +38,12 @@
         .form-step h2 { border-color: #f59e0b; }
         #submitBtn { transition: background-color 0.3s, transform 0.2s; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
         #submitBtn:hover { transform: translateY(-2px); }
+        .conditional { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out, opacity 0.5s ease-out; opacity: 0; }
+        .conditional.visible { max-height: 500px; opacity: 1; }
+        .tooltip-container { position: relative; display: inline-flex; align-items: center; }
+        .tooltip-icon { cursor: pointer; margin-left: 0.5rem; color: #9ca3af; border: 1px solid #9ca3af; border-radius: 50%; width: 1rem; height: 1rem; font-size: 0.7rem; text-align: center; line-height: 0.9rem; }
+        .tooltip-text { visibility: hidden; width: 200px; background-color: #1f2937; color: #fff; text-align: center; border-radius: 6px; padding: 5px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -100px; opacity: 0; transition: opacity 0.3s; font-size: 0.75rem; }
+        .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -94,16 +100,16 @@
                     <div id="step-5" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 pl-4 mb-6">Website Functionality</h2><div class="space-y-6"><div><label for="q_website_objectives" class="block text-sm font-medium text-gray-700">4. Website Objectives & Features</label><p class="text-sm text-gray-500 mt-1">What is the main purpose of your website and what features should it have? 👉 Mention if products are fixed or customizable, and how you'd prefer custom orders to be handled.</p><textarea id="q_website_objectives" name="4. Website Objectives & Features" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div><div><label for="q_product_categories" class="block text-sm font-medium text-gray-700">5. Product Categories & Content</label><p class="text-sm text-gray-500 mt-1">How many product categories and subcategories will you start with? 👉 Include any special sections like blogs, reviews, or project galleries.</p<textarea id="q_product_categories" name="5. Product Categories & Content" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div><div><label for="q_design_ux" class="block text-sm font-medium text-gray-700">6. Design & User Experience</label><p class="text-sm text-gray-500 mt-1">What kind of look and feel should the website have? 👉 Clean or interactive layout? Preferred colours/fonts? Do you need the site in multiple languages?</p><textarea id="q_design_ux" name="6. Design & User Experience" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div></div></div>
 
                     <!-- Step 6: Advanced & Technical Features -->
-                    <div id="step-6" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 pl-4 mb-6">Advanced & Technical Features</h2><div class="space-y-8"><div><label class="block text-sm font-medium text-gray-700">1. How will the product designs be created and by whom?</label><p class="text-sm text-gray-500 mt-1">Will your team handle product designing? Also, will the designs be made online or offline?</p><textarea id="q_design_creation" name="Tech - 1. Design Creation" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1000"></textarea><div class="char-counter">0 / 1000</div></div><div><label class="block text-sm font-medium text-gray-700">📐 2. Will designs be provided in SVG format (e.g., from CAD)?</label><p class="text-sm text-gray-500 mt-1">If yes, how many angles should be included (e.g., front, top, side)?</p><textarea id="q_svg_format" name="Tech - 2. SVG/CAD Format" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1000"></textarea><div class="char-counter">0 / 1000</div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">📊 3. Do you need advanced data insights like Pivot Charts?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="Tech - 3. Pivot Charts" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="Tech - 3. Pivot Charts" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">🔒 4. Should there be an option to assign admin rights to your team members?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="Tech - 4. Admin Rights" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="Tech - 4. Admin Rights" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">🧩 5. If new products are added in SVG/CAD, should they support direct 3D previews?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="Tech - 5. 3D Previews" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="Tech - 5. 3D Previews" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">🛍️ 6. Would you like to enable product promotions and a 'Trending' page?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="Tech - 6. Promotions" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="Tech - 6. Promotions" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">💵 7. Will you offer Cash on Delivery (COD) as a payment option?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="Tech - 7. COD" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="Tech - 7. COD" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div></div></div>
+                    <div id="step-6" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 pl-4 mb-6">Advanced & Technical Features</h2><div class="space-y-8"><div><label class="block text-sm font-medium text-gray-700">1. How will the product designs be created and by whom?</label><p class="text-sm text-gray-500 mt-1">Will your team handle product designing? Also, will the designs be made online or offline?</p><textarea id="q_design_creation" name="Tech - 1. Design Creation" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1000"></textarea><div class="char-counter">0 / 1000</div></div><div><label class="block text-sm font-medium text-gray-700 tooltip-container">📐 2. Will designs be provided in SVG format?<span class="tooltip-icon">?</span><span class="tooltip-text">SVG/CAD formats are vector files ideal for scalable, high-quality graphics and 3D models.</span></label><p class="text-sm text-gray-500 mt-1">If yes, how many angles should be included (e.g., front, top, side)?</p><textarea id="q_svg_format" name="Tech - 2. SVG/CAD Format" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1000"></textarea><div class="char-counter">0 / 1000</div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700 tooltip-container">📊 3. Do you need advanced data insights like Pivot Charts?<span class="tooltip-icon">?</span><span class="tooltip-text">Pivot charts allow for interactive summarizing and exploring of large datasets, like sales or user behavior.</span></label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="Tech - 3. Pivot Charts" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="Tech - 3. Pivot Charts" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">🔒 4. Should there be an option to assign admin rights to your team members?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="Tech - 4. Admin Rights" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="Tech - 4. Admin Rights" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">🧩 5. If new products are added in SVG/CAD, should they support direct 3D previews?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="Tech - 5. 3D Previews" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="Tech - 5. 3D Previews" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">🛍️ 6. Would you like to enable product promotions and a 'Trending' page?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="Tech - 6. Promotions" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="Tech - 6. Promotions" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div><div class="space-y-2"><div><label class="block text-sm font-medium text-gray-700">💵 7. Will you offer Cash on Delivery (COD) as a payment option?</label></div><div class="flex space-x-4"><label class="radio-label"><input type="radio" name="Tech - 7. COD" value="Yes" class="radio-input"><span class="radio-custom"></span><span class="ml-2">Yes</span></label><label class="radio-label"><input type="radio" name="Tech - 7. COD" value="No" class="radio-input"><span class="radio-custom"></span><span class="ml-2">No</span></label></div></div></div></div>
 
                     <!-- Step 7: Technical & Operational Details -->
-                    <div id="step-7" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 pl-4 mb-6">Technical & Operational Details</h2><div class="space-y-6"><div><label for="q_hosting" class="block text-sm font-medium text-gray-700">Do you have a domain name and a hosting plan?</label><p class="text-sm text-gray-500 mt-1">If so, please provide details about your domain registrar and hosting provider.</p><textarea id="q_hosting" name="Hosting & Domain Details" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"></textarea></div><div><label for="q_security" class="block text-sm font-medium text-gray-700">Are there any specific security requirements or data privacy regulations (e.g., GDPR, HIPAA) we need to consider?</label><textarea id="q_security" name="Security & Compliance" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"></textarea></div><div><label for="q_scalability" class="block text-sm font-medium text-gray-700">What is your expected user traffic or data volume for the first year?</label><p class="text-sm text-gray-500 mt-1">This helps us plan for scalability and performance.</p><textarea id="q_scalability" name="Scalability & Performance" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"></textarea></div></div></div>
+                    <div id="step-7" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 pl-4 mb-6">Technical & Operational Details</h2><div class="space-y-6"><div><label for="q_hosting" class="block text-sm font-medium text-gray-700">Do you have a domain name and a hosting plan?</label><p class="text-sm text-gray-500 mt-1">If so, please provide details about your domain registrar and hosting provider.</p><textarea id="q_hosting" name="Hosting & Domain Details" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"></textarea></div><div><label for="q_security" class="block text-sm font-medium text-gray-700 tooltip-container">Are there any specific security requirements or data privacy regulations we need to consider?<span class="tooltip-icon">?</span><span class="tooltip-text">e.g., GDPR for Europe, HIPAA for healthcare. This is crucial for compliance.</span></label><textarea id="q_security" name="Security & Compliance" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"></textarea></div><div><label for="q_scalability" class="block text-sm font-medium text-gray-700">What is your expected user traffic or data volume for the first year?</label><p class="text-sm text-gray-500 mt-1">This helps us plan for scalability and performance.</p><textarea id="q_scalability" name="Scalability & Performance" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"></textarea></div></div></div>
+                    
+                    <!-- Step 8: Digital Marketing -->
+                    <div id="step-8" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 pl-4 mb-6">Digital Marketing Services</h2><div class="space-y-6"><div><label class="block text-sm font-medium text-gray-700">Which additional digital marketing services are you interested in?</label><div class="mt-2 space-y-2" id="marketing-services-container"><label class="checkbox-label"><input type="checkbox" name="Marketing Service" value="Social Media Management" class="checkbox-input marketing-service-checkbox"><span class="checkbox-custom"></span><span class="ml-2">Social Media Management</span></label><label class="checkbox-label"><input type="checkbox" name="Marketing Service" value="SEO" class="checkbox-input marketing-service-checkbox"><span class="checkbox-custom"></span><span class="ml-2">Search Engine Optimization (SEO)</span></label><label class="checkbox-label"><input type="checkbox" name="Marketing Service" value="PPC" class="checkbox-input marketing-service-checkbox"><span class="checkbox-custom"></span><span class="ml-2">Pay-Per-Click (PPC) Advertising</span></label><label class="checkbox-label"><input type="checkbox" name="Marketing Service" value="Email Marketing" class="checkbox-input marketing-service-checkbox"><span class="checkbox-custom"></span><span class="ml-2">Email Marketing</span></label></div></div><div id="social_media_details" class="conditional mt-4"><label for="q_social_media" class="block text-sm font-medium text-gray-700">Social Media Expectations</label><p class="text-sm text-gray-500 mt-1">Tell us your expectations – branding, leads, content ideas (photos, reels, BTS, etc.).</p><textarea id="q_social_media" name="Social Media Expectations" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"></textarea></div><div id="seo_details" class="conditional mt-4"><label for="q_seo" class="block text-sm font-medium text-gray-700">SEO Goals</label><p class="text-sm text-gray-500 mt-1">What are your primary keywords or goals for search engine visibility?</p><textarea id="q_seo" name="SEO Goals" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"></textarea></div><div id="ppc_details" class="conditional mt-4"><label for="q_ppc" class="block text-sm font-medium text-gray-700">PPC Advertising Details</label><p class="text-sm text-gray-500 mt-1">Do you have a target ad spend, and which platforms are you interested in (e.g., Google Ads, Facebook Ads)?</p><textarea id="q_ppc" name="PPC Details" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"></textarea></div><div id="email_marketing_details" class="conditional mt-4"><label for="q_email_marketing" class="block text-sm font-medium text-gray-700">Email Marketing Needs</label><p class="text-sm text-gray-500 mt-1">Do you have an existing email list? What kind of campaigns are you planning?</p><textarea id="q_email_marketing" name="Email Marketing Needs" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"></textarea></div></div></div>
 
-                    <!-- Step 8: Project Management -->
-                    <div id="step-8" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 pl-4 mb-6">Project Management</h2><div class="space-y-6"><div><label for="q_priority" class="block text-sm font-medium text-gray-700">Project Priority</label><select id="q_priority" name="Project Priority" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"><option value="">Select Priority</option><option value="High">High - Urgent</option><option value="Medium">Medium - Standard Timeline</option><option value="Low">Low - Flexible Timeline</option></select></div><div><label for="q_communication" class="block text-sm font-medium text-gray-700">Preferred Communication</label><p class="text-sm text-gray-500 mt-1">How and how often would you like to receive project updates?</p><textarea id="q_communication" name="Preferred Communication" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g., Weekly email summaries, bi-weekly calls..."></textarea></div><div><label for="q_stakeholders" class="block text-sm font-medium text-gray-700">Key Stakeholders</label><p class="text-sm text-gray-500 mt-1">Please list the names and roles of key team members who will be involved in this project.</p><textarea id="q_stakeholders" name="Key Stakeholders" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"></textarea></div></div></div>
-
-                    <!-- Step 9: Scope & Final Details -->
-                    <div id="step-9" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 pl-4 mb-6">Scope & Final Details</h2><div class="space-y-6"><div><label for="q_social_media" class="block text-sm font-medium text-gray-700">9. Social Media Management</label><p class="text-sm text-gray-500 mt-1">Would you like us to set up and manage your social media accounts? 👉 Tell us your expectations – branding, leads, content ideas (photos, reels, BTS, etc.).</p><textarea id="q_social_media" name="9. Social Media Management" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div><div><label for="q_budget_timeline" class="block text-sm font-medium text-gray-700">10. Budget & Project Timeline</label><p class="text-sm text-gray-500 mt-1">What is your expected budget and any key deadlines?</p><div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2"><div><label for="budget" class="block text-xs font-medium text-gray-600">Budget</label><div class="flex"><select id="currency" name="Currency" class="px-4 py-2 border border-r-0 border-gray-300 rounded-l-md bg-gray-50"></select><select id="budget" name="Budget" class="w-full px-4 py-2 border border-gray-300 rounded-r-md"><option value="">Select a range</option><option value="<5000">&lt; 5,000</option><option value="5000-10000">5,000 - 10,000</option><option value="10000-25000">10,000 - 25,000</option><option value="25000-50000">25,000 - 50,000</option><option value=">50000">&gt; 50,000</option></select></div></div><div><label for="timeline" class="block text-xs font-medium text-gray-600">Timeline / Deadline</label><input type="text" id="timeline" name="Timeline" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g., 3 months, specific date..."></div></div></div><div><label for="q_final_notes" class="block text-sm font-medium text-gray-700">11. Final Notes & Expectations</label><p class="text-sm text-gray-500 mt-1">Do you have any fixed requirements or additional services you expect from us? 👉 Add anything else you feel is important or non-negotiable.</p><textarea id="q_final_notes" name="11. Final Notes & Expectations" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div></div></div>
+                    <!-- Step 9: Project Management & Budget -->
+                    <div id="step-9" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 pl-4 mb-6">Project Management & Budget</h2><div class="space-y-6"><div><label for="q_priority" class="block text-sm font-medium text-gray-700">Project Priority</label><select id="q_priority" name="Project Priority" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"><option value="">Select Priority</option><option value="High">High - Urgent</option><option value="Medium">Medium - Standard Timeline</option><option value="Low">Low - Flexible Timeline</option></select></div><div><label for="q_communication" class="block text-sm font-medium text-gray-700">Preferred Communication</label><p class="text-sm text-gray-500 mt-1">How and how often would you like to receive project updates?</p><textarea id="q_communication" name="Preferred Communication" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g., Weekly email summaries, bi-weekly calls..."></textarea></div><div><label for="q_stakeholders" class="block text-sm font-medium text-gray-700">Key Stakeholders</label><p class="text-sm text-gray-500 mt-1">Please list the names and roles of key team members who will be involved in this project.</p><textarea id="q_stakeholders" name="Key Stakeholders" rows="3" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md"></textarea></div><div><label for="q_budget_timeline" class="block text-sm font-medium text-gray-700">Budget & Project Timeline</label><p class="text-sm text-gray-500 mt-1">What is your expected budget and any key deadlines?</p><div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2"><div><label for="budget" class="block text-xs font-medium text-gray-600">Budget</label><div class="flex"><select id="currency" name="Currency" class="px-4 py-2 border border-r-0 border-gray-300 rounded-l-md bg-gray-50"></select><select id="budget" name="Budget" class="w-full px-4 py-2 border border-gray-300 rounded-r-md"><option value="">Select a range</option><option value="<5000">&lt; 5,000</option><option value="5000-10000">5,000 - 10,000</option><option value="10000-25000">10,000 - 25,000</option><option value="25000-50000">25,000 - 50,000</option><option value=">50000">&gt; 50,000</option></select></div></div><div><label for="timeline" class="block text-xs font-medium text-gray-600">Timeline / Deadline</label><input type="text" id="timeline" name="Timeline" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g., 3 months, specific date..."></div></div></div><div><label for="q_final_notes" class="block text-sm font-medium text-gray-700">Final Notes & Expectations</label><p class="text-sm text-gray-500 mt-1">Do you have any fixed requirements or additional services you expect from us?</p><textarea id="q_final_notes" name="Final Notes & Expectations" rows="4" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md" maxlength="1500"></textarea><div class="char-counter">0 / 1500</div></div></div></div>
                     
                     <!-- Step 10: Review & Submit -->
                     <div id="step-10" class="form-step"><h2 class="text-2xl font-semibold text-gray-800 border-l-4 pl-4 mb-6">Review & Submit</h2><p class="text-gray-600 mb-6">Please review the information below before submitting. Click "Edit" to jump back to a section.</p><div id="review-content" class="space-y-4 bg-gray-50 p-6 rounded-lg"></div></div>
@@ -128,7 +134,7 @@
 
         <!-- Modals -->
         <div id="confirmation-modal" class="modal-overlay"><div class="modal-content"><h3 class="text-lg font-bold mb-4">Are you sure?</h3><p class="text-gray-600 mb-6">This action cannot be undone. All submission data stored in this browser will be permanently deleted.</p><div class="flex justify-end space-x-4"><button id="cancel-clear" class="bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-md hover:bg-gray-300">Cancel</button><button id="confirm-clear" class="bg-red-600 text-white font-bold py-2 px-6 rounded-md hover:bg-red-700">Yes, Clear All</button></div></div></div>
-        <div id="details-modal" class="modal-overlay"><div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-xl font-bold">Submission Details</h3><button id="close-details-modal" class="text-gray-500 hover:text-gray-800 text-3xl leading-none">&times;</button></div><div id="details-modal-content" class="space-y-4"></div></div></div>
+        <div id="details-modal" class="modal-overlay"><div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-xl font-bold">Submission Details</h3><button id="close-details-modal" class="text-gray-500 hover:text-gray-800 text-3xl leading-none">&times;</button></div><div id="details-modal-content" class="space-y-4"></div><div class="mt-6 flex justify-end"><button id="download-single-csv-btn" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 text-sm">Download as CSV</button></div></div></div>
     </div>
 
     <script>
@@ -147,8 +153,8 @@
                 "4. Website Objectives & Features": { s: 5 }, "5. Product Categories & Content": { s: 5 }, "6. Design & User Experience": { s: 5 },
                 "Tech - 1. Design Creation": { s: 6 }, "Tech - 2. SVG/CAD Format": { s: 6 }, "Tech - 3. Pivot Charts": { s: 6 }, "Tech - 4. Admin Rights": { s: 6 }, "Tech - 5. 3D Previews": { s: 6 }, "Tech - 6. Promotions": { s: 6 }, "Tech - 7. COD": { s: 6 },
                 "Hosting & Domain Details": { s: 7 }, "Security & Compliance": { s: 7 }, "Scalability & Performance": { s: 7 },
-                "Project Priority": { s: 8 }, "Preferred Communication": { s: 8 }, "Key Stakeholders": { s: 8 },
-                "9. Social Media Management": { s: 9 }, "Budget": { s: 9 }, "Currency": { s: 9 }, "Timeline": { s: 9 }, "11. Final Notes & Expectations": { s: 9 }
+                "Marketing Service": { s: 8 }, "Social Media Expectations": { s: 8 }, "SEO Goals": { s: 8 }, "PPC Details": { s: 8 }, "Email Marketing Needs": { s: 8 },
+                "Project Priority": { s: 9 }, "Preferred Communication": { s: 9 }, "Key Stakeholders": { s: 9 }, "Budget": { s: 9 }, "Currency": { s: 9 }, "Timeline": { s: 9 }, "Final Notes & Expectations": { s: 9 }
             };
 
             const showStep = (step) => {
@@ -198,6 +204,15 @@
                         preview.classList.remove('hidden');
                     }
                 });
+                document.querySelectorAll('.marketing-service-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', (e) => {
+                        const detailId = e.target.value.toLowerCase().replace(/ /g, '_').replace(/-/g, '_') + '_details';
+                        const detailEl = document.getElementById(detailId);
+                        if (detailEl) {
+                            detailEl.classList.toggle('visible', e.target.checked);
+                        }
+                    });
+                });
             };
             
             const currencySelect = document.getElementById('currency');
@@ -212,9 +227,8 @@
                 for (const key in data) {
                     const element = form.elements[key];
                     if (element) {
-                         if (element.type === 'radio') {
-                            const radioToSelect = document.querySelector(`input[name="${key}"][value="${data[key]}"]`);
-                            if (radioToSelect) radioToSelect.checked = true;
+                         if (element.type === 'radio' || element.type === 'checkbox') {
+                            document.querySelectorAll(`input[name="${key}"][value="${data[key]}"]`).forEach(el => el.checked = true);
                         } else {
                             element.value = data[key];
                         }
@@ -237,7 +251,13 @@
                         if (key === 'Existing Logo' && form.elements[key].files.length > 0) {
                             displayValue = form.elements[key].files[0].name;
                         } else if (key === 'Existing Logo') continue;
-                        container.insertAdjacentHTML('beforeend', `<div><strong>${key}:</strong><p class="text-gray-700 pl-2 break-words">${displayValue}</p></div>`);
+                        if (key === 'Marketing Service') {
+                            if (!container.querySelector('[data-key="Marketing Service"]')) {
+                                container.insertAdjacentHTML('beforeend', `<div data-key="Marketing Service"><strong>Marketing Services:</strong><p class="text-gray-700 pl-2 break-words">${formData.getAll(key).join(', ')}</p></div>`);
+                            }
+                        } else {
+                            container.insertAdjacentHTML('beforeend', `<div><strong>${key}:</strong><p class="text-gray-700 pl-2 break-words">${displayValue}</p></div>`);
+                        }
                     }
                 }
                 reviewContent.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', () => { currentStep = parseInt(btn.dataset.step); showStep(currentStep); }));
@@ -264,8 +284,9 @@
 
                     if (response.ok) {
                         const submissions = JSON.parse(localStorage.getItem('limitlessSubmissions')) || [];
-                        const submissionData = Object.fromEntries(formData.entries());
+                        let submissionData = Object.fromEntries(formData.entries());
                         submissionData.submissionDate = new Date().toISOString();
+                        submissionData.status = "New"; // Add default status
                         submissions.push(submissionData);
                         localStorage.setItem('limitlessSubmissions', JSON.stringify(submissions));
                         
@@ -296,6 +317,9 @@
                         (sub['Email'] && sub['Email'].toLowerCase().includes(searchTerm))
                     );
                 }
+                
+                const statusColors = { "New": "bg-blue-100 text-blue-800", "Contacted": "bg-yellow-100 text-yellow-800", "Proposal Sent": "bg-purple-100 text-purple-800", "In Progress": "bg-green-100 text-green-800", "On Hold": "bg-gray-100 text-gray-800", "Completed": "bg-gray-400 text-white" };
+                const statuses = Object.keys(statusColors);
 
                 if (submissions.length === 0) {
                     document.getElementById('no-submissions').style.display = 'block';
@@ -304,17 +328,31 @@
                     document.getElementById('no-submissions').style.display = 'none';
                     document.getElementById('downloadAllCsvBtn').disabled = false;
                     submissions.forEach((sub, index) => {
+                        const status = sub.status || "New";
                         const card = `<div class="bg-white p-4 rounded-lg shadow border flex justify-between items-center">
                             <div>
                                 <p class="font-bold text-lg text-blue-600">${sub["Full Name"] || 'N/A'}</p>
                                 <p class="text-sm text-gray-600">${sub["Company Name"] || 'No Company'}</p>
                                 <p class="text-xs text-gray-400 mt-1">${new Date(sub.submissionDate).toLocaleString()}</p>
                             </div>
-                            <button class="text-blue-600 hover:underline view-details-btn" data-index="${submissions.indexOf(sub)}">View Details</button>
+                            <div class="flex items-center space-x-4">
+                                <select class="status-select text-xs rounded-md border-gray-300 ${statusColors[status]}" data-index="${submissions.indexOf(sub)}">
+                                    ${statuses.map(s => `<option value="${s}" ${s === status ? 'selected' : ''}>${s}</option>`).join('')}
+                                </select>
+                                <button class="text-blue-600 hover:underline view-details-btn" data-index="${submissions.indexOf(sub)}">View Details</button>
+                            </div>
                         </div>`;
                         submissionsContainer.insertAdjacentHTML('beforeend', card);
                     });
                     document.querySelectorAll('.view-details-btn').forEach(btn => btn.addEventListener('click', (e) => showDetailsModal(e.target.dataset.index)));
+                    document.querySelectorAll('.status-select').forEach(select => select.addEventListener('change', (e) => {
+                        const newStatus = e.target.value;
+                        const submissionIndex = e.target.dataset.index;
+                        let allSubmissions = JSON.parse(localStorage.getItem('limitlessSubmissions'));
+                        allSubmissions[submissionIndex].status = newStatus;
+                        localStorage.setItem('limitlessSubmissions', JSON.stringify(allSubmissions));
+                        e.target.className = `status-select text-xs rounded-md border-gray-300 ${statusColors[newStatus]}`;
+                    }));
                 }
             };
 
@@ -326,25 +364,34 @@
                 const modalContent = document.getElementById('details-modal-content');
                 modalContent.innerHTML = '';
                 for (const key in submission) {
-                    if (key !== 'submissionDate' && key.charAt(0) !== '_') {
+                    if (key !== 'submissionDate' && key !== 'status' && key.charAt(0) !== '_') {
                          modalContent.insertAdjacentHTML('beforeend', `<div class="border-b pb-2"><strong>${key}:</strong><p class="text-gray-700 pl-2 break-words">${submission[key] || 'N/A'}</p></div>`);
                     }
                 }
                 document.getElementById('details-modal').classList.add('visible');
+                document.getElementById('download-single-csv-btn').dataset.index = index;
             };
             document.getElementById('close-details-modal').addEventListener('click', () => document.getElementById('details-modal').classList.remove('visible'));
-
-            document.getElementById('downloadAllCsvBtn').addEventListener('click', () => {
-                const submissions = JSON.parse(localStorage.getItem('limitlessSubmissions')) || [];
-                if (submissions.length === 0) return;
+            
+            const downloadCSV = (data) => {
                 const headers = Object.keys(fieldLabels);
-                const csvRows = [headers.join(','), ...submissions.map(row => headers.map(header => `"${(row[header] || '').toString().replace(/"/g, '""')}"`).join(','))];
+                const csvRows = [headers.join(','), ...data.map(row => headers.map(header => `"${(row[header] || '').toString().replace(/"/g, '""')}"`).join(','))];
                 const link = document.createElement("a");
                 link.href = URL.createObjectURL(new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' }));
-                link.download = `all_submissions-${new Date().toISOString().split('T')[0]}.csv`;
+                link.download = `submission-${Date.now()}.csv`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
+            };
+
+            document.getElementById('downloadAllCsvBtn').addEventListener('click', () => {
+                const submissions = JSON.parse(localStorage.getItem('limitlessSubmissions')) || [];
+                if (submissions.length > 0) downloadCSV(submissions);
+            });
+            document.getElementById('download-single-csv-btn').addEventListener('click', (e) => {
+                const submissions = JSON.parse(localStorage.getItem('limitlessSubmissions')) || [];
+                const submission = submissions[e.target.dataset.index];
+                if (submission) downloadCSV([submission]);
             });
             
             const modal = document.getElementById('confirmation-modal');
